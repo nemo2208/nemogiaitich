@@ -1,0 +1,32 @@
+<h2>Quiz Công Thức Giải tích 1</h2>
+
+<link rel="stylesheet" href="style.css">
+
+<div class="container">
+  <h2> Quiz Công Thức Giải tích 1</h2>
+
+  <div class="controls">
+    <select id="chapter">
+      <option value="gioi_han">Giới hạn</option>
+      <option value="dao_ham">Đạo hàm</option>
+      <option value="taylor">Taylor – Maclaurin</option>
+      <option value="tich_phan">Tích phân</option>
+      <option value="chuoi">Chuỗi số</option>
+    </select>
+
+    <button onclick="start()">Bắt đầu</button>
+    <button onclick="submitQuiz()">Nộp bài</button>
+    <button onclick="toggleDark()">Dark mode</button>
+
+  </div>
+
+  <div id="quiz"></div>
+  <p id="result"></p>
+  <div id="wrong-list"></div>
+
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
