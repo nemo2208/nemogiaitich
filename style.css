@@ -1,184 +1,124 @@
-* {
-  box-sizing: border-box;
+/* ===== RESET ===== */
+*{box-sizing:border-box}
+body{
+  font-family:"Segoe UI",Arial,sans-serif;
+  margin:0;padding:30px;
+  background:linear-gradient(135deg,#eef2f3,#d9e4f5);
+  color:#2c3e50;
 }
 
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(135deg, #eef2f3, #d9e4f5);
-  margin: 0;
-  padding: 30px;
+/* ===== LAYOUT ===== */
+.container{
+  max-width:900px;margin:auto;
+  background:#fff;padding:25px 30px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+h2{text-align:center;margin-bottom:20px}
+.controls{
+  display:flex;gap:12px;justify-content:center;
+  margin-bottom:25px;flex-wrap:wrap
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: white;
-  padding: 25px 30px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+/* ===== FORM ===== */
+select,button{
+  padding:10px 16px;font-size:16px;
+  border-radius:8px;border:none;cursor:pointer
+}
+select{border:1px solid #ccc}
+button{
+  background:#4f8cff;color:#fff;transition:.2s
+}
+button:hover{background:#3b72d9}
+
+/* ===== QUESTION ===== */
+.question-card{
+  background:#f9fbff;
+  padding:18px 20px;
+  border-radius:12px;
+  margin-bottom:18px;
+  border-left:6px solid #4f8cff
+}
+.question-card p{font-weight:600}
+
+/* ===== OPTIONS ===== */
+.option{
+  display:block;
+  padding:10px 14px;
+  margin:8px 0;
+  background:#fff;
+  border-radius:8px;
+  border:1px solid #ddd;
+  cursor:pointer;
+  transition:.15s
+}
+.option:hover{
+  background:#eef4ff;
+  border-color:#4f8cff
+}
+.option input{margin-right:8px}
+
+/* ===== ĐÚNG / SAI ===== */
+.option.correct{
+  background:#d4f8e8;
+  border-color:#00b894;
+  color:#065f46
+}
+.option.wrong{
+  background:#ffe5e5;
+  border-color:#ff7675;
+  color:#7a1f1f
+}
+.question-card.correct{border-color:#2ecc71;background:#eafaf1}
+.question-card.wrong{border-color:#e74c3c;background:#fdecea}
+
+/* ===== RESULT ===== */
+#result{
+  text-align:center;
+  font-size:18px;
+  font-weight:700;
+  margin-top:20px
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #2c3e50;
+/* ===== WRONG BOX ===== */
+.wrong-box{
+  margin-top:25px;
+  padding:18px;
+  border-radius:12px;
+  background:#fff0f0;
+  border-left:6px solid #ff4d4d
 }
+.wrong-box h3{margin-top:0;color:#d63031}
+.correct-answer{color:#0984e3;font-weight:600}
 
-.controls {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
+/* ===== DARK MODE ===== */
+body.dark{
+  background:linear-gradient(135deg,#1e1e1e,#121212);
+  color:#e0e0e0
 }
-
-select, button {
-  padding: 10px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+body.dark .container{background:#1f1f1f}
+body.dark .question-card{
+  background:#2a2a2a;
+  border-left-color:#7aa2ff
 }
-
-select {
-  border: 1px solid #ccc;
+body.dark .question-card p{color:#fff}
+body.dark .option{
+  background:#2f2f2f;
+  border-color:#444;
+  color:#eee
 }
-
-button {
-  background: #4f8cff;
-  color: white;
-  transition: 0.2s;
+body.dark .option:hover{background:#3a3a3a}
+body.dark .option.correct{
+  background:#1e4d3a;
+  border-color:#00d084;
+  color:#b9ffe7
 }
-
-button:hover {
-  background: #3b72d9;
+body.dark .option.wrong{
+  background:#4a1f1f;
+  border-color:#ff7675;
+  color:#ffd6d6
 }
-
-.question-card {
-  background: #f9fbff;
-  padding: 18px 20px;
-  border-radius: 12px;
-  margin-bottom: 18px;
-  border-left: 6px solid #4f8cff;
-}
-
-.question-card p {
-  font-weight: 600;
-  color: #333;
-}
-
-.option {
-  display: block;
-  padding: 10px 14px;
-  margin: 8px 0;
-  background: #ffffff;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  transition: 0.15s;
-}
-
-.option:hover {
-  background: #eef4ff;
-  border-color: #4f8cff;
-}
-
-.option input {
-  margin-right: 8px;
-}
-
-#result {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 20px;
-  color: #2c3e50;
-}
-body.dark {
-  background: linear-gradient(135deg, #1e1e1e, #121212);
-  color: #e0e0e0;
-}
-
-body.dark .container {
-  background: #1f1f1f;
-}
-
-body.dark .question-card {
-  background: #2a2a2a;
-  border-left-color: #7aa2ff;
-}
-
-body.dark .option {
-  background: #2f2f2f;
-  border-color: #444;
-  color: #eee;
-}
-
-body.dark .option:hover {
-  background: #3a3a3a;
-}
-/* FIX chữ đề bài trong dark mode */
-body.dark .question-card p {
-  color: #ffffff;
-}
-
-/* FIX chữ tiêu đề câu */
-body.dark .question-card {
-  color: #eaeaea;
-}
-
-.wrong-box {
-  margin-top: 25px;
-  padding: 18px;
-  border-radius: 12px;
-  background: #fff0f0;
-  border-left: 6px solid #ff4d4d;
-}
-
-body.dark .wrong-box {
-  background: #3a1f1f;
-}
-
-.wrong-box h3 {
-  margin-top: 0;
-  color: #d63031;
-}
-
-.wrong-item {
-  margin-bottom: 15px;
-}
-
-.correct-answer {
-  color: #0984e3;
-  font-weight: 600;
-}
-/* Đáp án đúng / sai */
-.option.correct {
-  background: #d4f8e8;
-  border-color: #00b894;
-  color: #065f46;
-}
-
-.option.wrong {
-  background: #ffe5e5;
-  border-color: #ff7675;
-  color: #7a1f1f;
-}
-
-/* Dark mode */
-body.dark .option.correct {
-  background: #1e4d3a;
-  border-color: #00d084;
-  color: #b9ffe7;
-}
-
-body.dark .option.wrong {
-  background: #4a1f1f;
-  border-color: #ff7675;
-  color: #ffd6d6;
-}
-
-
+body.dark .wrong-box{background:#3a1f1f}
 
 /* ===== ĐÁP ÁN ĐÚNG / SAI ===== */
 .correct {
