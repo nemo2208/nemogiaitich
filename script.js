@@ -1,120 +1,104 @@
-let questions = [];
+const chapterSelect = document.getElementById("chapterSelect");
+const quizDiv = document.getElementById("quiz");
+const startBtn = document.getElementById("startBtn");
+const submitBtn = document.getElementById("submitBtn");
+const resultDiv = document.getElementById("result");
 
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+for (const key in CHAPTERS) {
+  if (DATA[key]) {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = `${CHAPTERS[key]} (${DATA[key].length} câu)`;
+    chapterSelect.appendChild(opt);
   }
 }
 
-function start() {
-  const key = document.getElementById("chapter").value;
+let questions = [];
 
-  // copy dữ liệu gốc
-  questions = DATA[key].map(q => ({
-    q: q.q,
-    options: [...q.options],
-    a: q.a
-  }));
-
-  // random câu
-  shuffle(questions);
-
-  // random đáp án
-  questions.forEach(q => {
-    const correct = q.options[q.a];
-    shuffle(q.options);
-    q.a = q.options.indexOf(correct);
-  });
-
-  render();
+function getQuestionsByChapter() {
+  const chap = chapterSelect.value;
+  if (chap === "all") {
+    return Object.keys(CHAPTERS)
+      .filter(k => DATA[k])
+      .flatMap(k => DATA[k]);
+  }
+  return DATA[chap] || [];
 }
 
-function render() {
-  const quiz = document.getElementById("quiz");
-  quiz.innerHTML = "";
+startBtn.onclick = () => {
+  questions = getQuestionsByChapter()
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 20); // đổi số câu nếu muốn
+
+  renderQuiz();
+  submitBtn.style.display = "block";
+  resultDiv.innerHTML = "";
+};
+
+function renderQuiz() {
+  quizDiv.innerHTML = "";
 
   questions.forEach((q, i) => {
-    let html = `
+    quizDiv.innerHTML += `
       <div class="question-card">
-        <p>Câu ${i + 1}: ${q.q}</p>
+        <p><b>Câu ${i + 1}:</b> ${q.q}</p>
+        ${q.options.map((opt, j) =>
+          `<label>
+            <input type="radio" name="q${i}" value="${j}">
+            ${opt}
+          </label><br>`
+        ).join("")}
+      </div>
     `;
-
-    q.options.forEach((opt, j) => {
-      html += `
-        <label class="option">
-          <input type="radio" name="q${i}" value="${j}">
-          ${opt}
-        </label>
-      `;
-    });
-
-    html += `</div>`;
-    quiz.innerHTML += html;
   });
 }
-function toggleDark() {
-  document.body.classList.toggle("dark");
-}
 
-
-function submitQuiz() {
-  let score = 0;
-  wrongQuestions = [];
-
-  const wrongList = document.getElementById("wrong-list");
-  wrongList.innerHTML = "";
+submitBtn.onclick = () => {
+  let correct = 0;
+  let wrongList = [];
 
   questions.forEach((q, i) => {
-    const options = document.querySelectorAll(`input[name="q${i}"]`);
-    let chosen = -1;
+    const card = document.querySelectorAll(".question-card")[i];
+    const chosen = document.querySelector(`input[name="q${i}"]:checked`);
 
-    options.forEach((opt, j) => {
-      if (opt.checked) chosen = j;
-    });
-
-    options.forEach((opt, j) => {
-      const label = opt.parentElement;
-
-      // đáp án đúng
-      if (j === q.a) {
-        label.classList.add("correct");
-      }
-
-      // đáp án chọn sai
-      if (j === chosen && chosen !== q.a) {
-        label.classList.add("wrong");
-      }
-    });
-
-    if (chosen === q.a) {
-      score++;
+    if (chosen && +chosen.value === q.a) {
+      correct++;
+      card.classList.add("correct");
     } else {
-      wrongQuestions.push(q);
-
-      const div = document.createElement("div");
-      div.className = "wrong-item";
-      div.innerHTML = `
-        <p><b>❌ Câu ${i + 1}:</b> ${q.q}</p>
-        <p class="correct-answer">
-          👉 Đáp án đúng: ${q.options[q.a]}
-        </p>
-      `;
-      wrongList.appendChild(div);
+      card.classList.add("wrong");
+      wrongList.push({
+        question: q.q,
+        right: q.options[q.a]
+      });
     }
   });
 
-  document.getElementById("result").innerText =
-    `Bạn đúng ${score}/${questions.length} câu`;
+  let html = `<h2>🎯 Kết quả: ${correct}/${questions.length}</h2>`;
 
-  if (wrongQuestions.length > 0) {
-    const box = document.createElement("div");
-    box.className = "wrong-box";
-    box.innerHTML = "<h3>📌 Các câu bạn làm sai</h3>";
-    box.appendChild(wrongList);
-    document.getElementById("result").after(box);
-
-    showRetryButton();
+  if (wrongList.length > 0) {
+    html += `<div id="wrongBox"><h3>❌ Các câu làm sai</h3>`;
+    wrongList.forEach((w, i) => {
+      html += `
+        <p>
+          <b>Câu ${i + 1}:</b> ${w.question}<br>
+          ✅ <span class="correct">${w.right}</span>
+        </p>
+      `;
+    });
+    html += `</div>`;
+  } else {
+    html += `<p class="correct">🎉 Tuyệt đối chính xác!</p>`;
   }
-}
 
+  resultDiv.innerHTML = html;
+};
+
+function toggleDark() {
+  document.body.classList.toggle("dark");
+
+  // lưu trạng thái
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark")
+  );
+}

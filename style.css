@@ -177,3 +177,53 @@ body.dark .option.wrong {
   border-color: #ff7675;
   color: #ffd6d6;
 }
+
+
+
+/* ===== ĐÁP ÁN ĐÚNG / SAI ===== */
+.correct {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.wrong {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* highlight cả card */
+.question-card.correct {
+  border: 2px solid #2ecc71;
+  background: #eafaf1;
+}
+
+.question-card.wrong {
+  border: 2px solid #e74c3c;
+  background: #fdecea;
+}
+
+/* dark mode */
+body.dark .question-card.correct {
+  background: #1e3d2f;
+}
+
+body.dark .question-card.wrong {
+  background: #3d1e1e;
+}
+
+/* ===== KHUNG CÂU SAI CUỐI BÀI ===== */
+#wrongBox {
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #fff3f3;
+  border: 2px solid #e74c3c;
+}
+
+body.dark #wrongBox {
+  background: #2a1515;
+}
+
+#wrongBox h3 {
+  margin-top: 0;
+}

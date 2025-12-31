@@ -1,32 +1,31 @@
-<h2>Quiz Công Thức Giải tích 1</h2>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Ôn công thức Giải tích 1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<link rel="stylesheet" href="style.css">
+<h1> Trắc nghiệm công thức Giải tích 1</h1>
 
-<div class="container">
-  <h2> Quiz Công Thức Giải tích 1</h2>
+<!-- CHỌN CHƯƠNG -->
+<select id="chapterSelect">
+  <option value="all">📚 Tất cả chương</option>
+</select>
 
-  <div class="controls">
-    <select id="chapter">
-      <option value="gioi_han">Giới hạn</option>
-      <option value="dao_ham">Đạo hàm</option>
-      <option value="taylor">Taylor – Maclaurin</option>
-      <option value="tich_phan">Tích phân</option>
-      <option value="chuoi">Chuỗi số</option>
-    </select>
+<button id="startBtn"> Bắt đầu</button>
+<button onclick="toggleDark()">Dark mode</button>
 
-    <button onclick="start()">Bắt đầu</button>
-    <button onclick="submitQuiz()">Nộp bài</button>
-    <button onclick="toggleDark()">Dark mode</button>
+<hr>
 
-  </div>
+<div id="quiz"></div>
 
-  <div id="quiz"></div>
-  <p id="result"></p>
-  <div id="wrong-list"></div>
+<button id="submitBtn" style="display:none"> Nộp bài</button>
 
-</div>
+<div id="result"></div>
 
-<script src="data.js"></script>
+<script src="data.js"></script>  
 <script src="script.js"></script>
 </body>
 </html>
